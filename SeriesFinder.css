@@ -4,7 +4,37 @@
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: .5rem;
+  gap: 0 .5rem;
+
+  /* font-size: 1rem; */
+  /* font-size: .6vw; */
+  font-size: clamp(.75rem, 1.2vw, 1rem);
+  .series-card {
+    /* width: 100%; */
+    overflow: hidden;
+    padding: .5rem;
+    border-radius: 8px;
+    outline: none;
+    text-decoration: none;
+    color: black;
+    .series-title {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      margin: 0 4px;
+      font-size: 1.4em;
+      font-weight: 400;
+    }
+    .series-subtitle {
+      margin: 0 4px;
+      font-size: .9em;
+      font-weight: 400;
+    }
+  }
+  .series-card:hover, .series-card:focus-visible {
+    background-color: #b2bec366;
+  }
 }
 img {
   display: block;
@@ -15,6 +45,94 @@ img {
 
   cursor: pointer;
 
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
   border-radius: 8px;
+}
+
+@media screen and (max-width: 1024px) {
+  #series-finder-container {
+    grid-template-columns: repeat(3, 1fr);
+    font-size: clamp(.8rem, 1.5vw, 1.2rem);
+  }
+}
+@media screen and (max-width: 768px) {
+  #series-finder-container {
+    grid-template-columns: repeat(2, 1fr);
+    font-size: clamp(.9rem, 2.5vw, 1.1rem);
+  }
+}
+@media screen and (max-width: 425px) {
+  #series-finder-container {
+    grid-template-columns: repeat(1, 1fr);
+    font-size: clamp(.5rem, 5vw, 1.25rem);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .series-card {
+    opacity: 0;
+    animation: calendar-fade 500ms ease-in-out 200ms 1 normal forwards;
+  }
+  .series-card:nth-of-type(1) { animation-delay: 15ms; }
+  .series-card:nth-of-type(2) { animation-delay: 30ms; }
+  .series-card:nth-of-type(3) { animation-delay: 45ms; }
+  .series-card:nth-of-type(4) { animation-delay: 60ms; }
+  .series-card:nth-of-type(5) { animation-delay: 75ms; }
+  .series-card:nth-of-type(6) { animation-delay: 90ms; }
+  .series-card:nth-of-type(7) { animation-delay: 105ms; }
+  .series-card:nth-of-type(8) { animation-delay: 120ms; }
+  .series-card:nth-of-type(9) { animation-delay: 135ms; }
+  .series-card:nth-of-type(10) { animation-delay: 150ms; }
+  .series-card:nth-of-type(11) { animation-delay: 165ms; }
+  .series-card:nth-of-type(12) { animation-delay: 180ms; }
+  .series-card:nth-of-type(13) { animation-delay: 195ms; }
+  .series-card:nth-of-type(14) { animation-delay: 210ms; }
+  .series-card:nth-of-type(15) { animation-delay: 225ms; }
+  .series-card:nth-of-type(16) { animation-delay: 240ms; }
+  .series-card:nth-of-type(17) { animation-delay: 255ms; }
+  .series-card:nth-of-type(18) { animation-delay: 270ms; }
+  .series-card:nth-of-type(19) { animation-delay: 285ms; }
+  .series-card:nth-of-type(20) { animation-delay: 300ms; }
+  .series-card:nth-of-type(21) { animation-delay: 315ms; }
+  .series-card:nth-of-type(22) { animation-delay: 330ms; }
+  .series-card:nth-of-type(23) { animation-delay: 345ms; }
+  .series-card:nth-of-type(24) { animation-delay: 360ms; }
+  .series-card:nth-of-type(25) { animation-delay: 375ms; }
+  .series-card:nth-of-type(26) { animation-delay: 390ms; }
+  .series-card:nth-of-type(27) { animation-delay: 405ms; }
+  .series-card:nth-of-type(28) { animation-delay: 420ms; }
+  .series-card:nth-of-type(29) { animation-delay: 435ms; }
+  .series-card:nth-of-type(30) { animation-delay: 450ms; }
+  .series-card:nth-of-type(31) { animation-delay: 465ms; }
+  .series-card:nth-of-type(32) { animation-delay: 480ms; }
+  .series-card:nth-of-type(33) { animation-delay: 495ms; }
+  .series-card:nth-of-type(34) { animation-delay: 510ms; }
+  .series-card:nth-of-type(35) { animation-delay: 525ms; }
+  .series-card:nth-of-type(36) { animation-delay: 540ms; }
+  .series-card:nth-of-type(37) { animation-delay: 555ms; }
+  .series-card:nth-of-type(38) { animation-delay: 570ms; }
+  .series-card:nth-of-type(39) { animation-delay: 585ms; }
+  .series-card:nth-of-type(40) { animation-delay: 600ms; }
+  .series-card:nth-of-type(41) { animation-delay: 615ms; }
+  .series-card:nth-of-type(42) { animation-delay: 630ms; }
+  .series-card:nth-of-type(43) { animation-delay: 645ms; }
+  .series-card:nth-of-type(44) { animation-delay: 660ms; }
+  .series-card:nth-of-type(45) { animation-delay: 675ms; }
+  .series-card:nth-of-type(46) { animation-delay: 690ms; }
+  .series-card:nth-of-type(47) { animation-delay: 705ms; }
+  .series-card:nth-of-type(48) { animation-delay: 720ms; }
+  .series-card:nth-of-type(49) { animation-delay: 735ms; }
+  .series-card:nth-of-type(50) { animation-delay: 750ms; }
+}
+
+@keyframes calendar-fade {
+  from {
+      transform: translate(5%, 20%);
+      opacity: 0;
+  }
+
+  to {
+      transform: translate(0, 0);
+      opacity: 1;
+  }
 }

@@ -1,11 +1,13 @@
-class PHCSeriesFinder extends HTMLElement {
+class PHCSeriesDetails extends HTMLElement {
   constructor() {
     super();
-    this.seriesList = [];
+
+    this.series = null;
+    this.sermons = [];
   }
 
   async applyExternalStyles() {
-    const response = await fetch('./SeriesFinder.css');
+    const response = await fetch('./SeriesDetails.css');
     const css = await response.text();
     const style = document.createElement('style');
     style.textContent = css;
@@ -13,39 +15,58 @@ class PHCSeriesFinder extends HTMLElement {
   }
 
   connectedCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
     const shadow = this.attachShadow({ mode: "open" });
 
     this.targetURL = this.getAttribute('target');
+    this.seriesID = urlParams.get('id');
 
     if (!this.targetURL) {
       return console.error('Missing attribute: \'target\'');
     }
+    if (!this.seriesID) {
+      return console.error('Missing series id');
+    }
+
 
     this.wrapper = document.createElement('div');
     this.wrapper.id = 'series-finder-container'
     shadow.appendChild(this.wrapper);
 
-    this.applyExternalStyles();
+    // this.applyExternalStyles();
     this.fetchSeries();
+    this.fetchSermons();
   }
 
   async fetchSeries() {
     try {
-      const response = await fetch(`http://localhost:3000/api/widgets/series`);
-      this.seriesList = await response.json();
-      this.update();
+      const response = await fetch(`http://localhost:3000/api/widgets/series/${this.seriesID}`);
+      const seriesList = await response.json();
+      this.series = seriesList[0];
+      if (this.sermons.length > 0) this.update();
+    } catch (error) {
+      console.error('Failed to fetch series:', error);
+    }
+  }
+  async fetchSermons() {
+    try {
+      const response = await fetch(`http://localhost:3000/api/widgets/sermon-series/${this.seriesID}`);
+      this.sermons = await response.json();
+      if (this.series !== null) this.update();
     } catch (error) {
       console.error('Failed to fetch series:', error);
     }
   }
 
   update() {
+    console.log(this.series);
+    console.log(this.sermons);
     // Logic to update the DOM elements to display the series list
-    console.log(this.seriesList);
+    // console.log(this.seriesList);
 
-    this.wrapper.innerHTML = '';
+    // this.wrapper.innerHTML = '';
 
-    this.loadSeriesSequentially(0);
+    // this.loadSeriesSequentially(0);
 
     // const seriesListHTML = this.seriesList.map(series => {
     //   const { Title, Display_Title, Series_Start_Date, UniqueFileId } = series;
@@ -91,4 +112,4 @@ class PHCSeriesFinder extends HTMLElement {
   }
 }
 
-customElements.define('phc-series-finder', PHCSeriesFinder);
+customElements.define('phc-series-details', PHCSeriesDetails);
