@@ -1,4 +1,4 @@
-class PHCSeriesDetails extends HTMLElement {
+export class PHCSeriesDetails extends HTMLElement {
   constructor() {
     super();
 
@@ -7,7 +7,7 @@ class PHCSeriesDetails extends HTMLElement {
   }
 
   async applyExternalStyles() {
-    const response = await fetch('./SeriesDetails.css');
+    const response = await fetch('./SermonWidgets.css');
     const css = await response.text();
     const style = document.createElement('style');
     style.textContent = css;
@@ -15,11 +15,12 @@ class PHCSeriesDetails extends HTMLElement {
   }
 
   connectedCallback() {
+    console.log('is this running');
     const urlParams = new URLSearchParams(window.location.search);
+    this.seriesID = urlParams.get('id');
     const shadow = this.attachShadow({ mode: "open" });
 
     this.targetURL = this.getAttribute('target');
-    this.seriesID = urlParams.get('id');
 
     if (!this.targetURL) {
       return console.error('Missing attribute: \'target\'');
@@ -30,10 +31,10 @@ class PHCSeriesDetails extends HTMLElement {
 
 
     this.wrapper = document.createElement('div');
-    this.wrapper.id = 'series-finder-container'
+    this.wrapper.id = 'series-details-container'
     shadow.appendChild(this.wrapper);
 
-    // this.applyExternalStyles();
+    this.applyExternalStyles();
     this.fetchSeries();
     this.fetchSermons();
   }
@@ -63,8 +64,35 @@ class PHCSeriesDetails extends HTMLElement {
     console.log(this.sermons);
     // Logic to update the DOM elements to display the series list
     // console.log(this.seriesList);
+    const { Title, Display_Title, UniqueFileId, Series_UUID } = this.series;
 
-    // this.wrapper.innerHTML = '';
+    // const img = new Image();
+    // img.src = `https://my.pureheart.org/ministryplatformapi/files/${UniqueFileId}`;
+    // img.alt = Display_Title ?? Title;
+    // img.classList.add('fade-in-sequentially');
+    // img.onload = () => {
+    //   this.wrapper.appendChild(img);
+    // }
+    this.wrapper.innerHTML = `
+      <div class="series-img-container">
+        <img src="https://my.pureheart.org/ministryplatformapi/files/${UniqueFileId}" alt="${Display_Title ?? Title}" id="${Series_UUID}">
+      </div>
+      <h1 class="series-title">${Display_Title ?? Title}</h1>
+      <div class="sermon-list-container">
+        ${this.sermons.map((sermon, i) => {
+          const { Title, Subtitle, Sermon_Date, Display_Name, UniqueFileId } = sermon;
+          return `
+            <a href="#" class="series-card fade-in" style="animation-delay: ${50 * i}ms;">
+              <div class="img-container">
+                <img src="https://my.pureheart.org/ministryplatformapi/files/${UniqueFileId}?thumbnail=true" alt="${Title}" >
+              </div>
+              <h1 class="title">${Title}</h1>
+              <!-- <p class="subtitle">${Subtitle}</p> -->
+            </a>
+          `
+        }).join('')}
+      </div>
+    `;
 
     // this.loadSeriesSequentially(0);
 
@@ -111,5 +139,3 @@ class PHCSeriesDetails extends HTMLElement {
     };
   }
 }
-
-customElements.define('phc-series-details', PHCSeriesDetails);
